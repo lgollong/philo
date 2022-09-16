@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:39:35 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/16 17:24:02 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:45:50 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	parse_args(t_ph *p,int argc, char **argv)
 	return (0);
 }
 
-int	create_all(t_ph *p)
-{
+// int	create_all(t_ph *p)
+// {
 	
-}
+// }

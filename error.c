@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:35:23 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/16 17:02:50 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:47:09 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	write_error(char *str)
 	int	i;
 
 	i = 0;
-	write(2, "ERROR: ", 7);
+	write(2, " * Error: ", 10);
 	while (str[i])
 	{
 		write(2, &str[i], 1);
