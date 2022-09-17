@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:42:11 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/16 15:42:43 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/17 13:03:48 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,12 @@ int	ft_atoi(const char *strn)
 		i++;
 	}
 	return (nbr * sol);
+}
+
+long long	get_time(void)
+{
+	struct timeval	time;
+	
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
