@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:39:35 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/20 17:10:11 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:44:12 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	parse_args(t_n *r, int argc, char **argv)
 	r->time_die = ft_atoi(argv[2]);
 	r->time_eat = ft_atoi(argv[3]);
 	r->time_sleep = ft_atoi(argv[4]);
-	r->died = 0;
 	r->fed_up = 0;
+	r->died = 0;
 	if (argc == 6)
 	{
 		r->must_eat_nb = ft_atoi(argv[5]);
@@ -28,8 +28,8 @@ int	parse_args(t_n *r, int argc, char **argv)
 	}
 	else
 		r->must_eat_nb = -1;
-	if (r->ph_nb < 2 || r->time_die < 0 || r->ph_nb >= 1024
-		|| r->time_eat < 0 || r->time_sleep < 0)
+	if (r->ph_nb < 1 || r->time_die < 60 || r->ph_nb >= 1024
+		|| r->time_eat < 60 || r->time_sleep < 60)
 		return (4);
 	return (0);
 }
@@ -39,7 +39,7 @@ void	init_philos(t_n *r)
 	int	ph;
 
 	ph = r->ph_nb;
-	while (ph > 0)
+	while (--ph >= 0)
 	{
 		r->philo[ph].id = ph;
 		r->philo[ph].l_f = ph;
@@ -47,26 +47,24 @@ void	init_philos(t_n *r)
 		r->philo[ph].ate = 0;
 		r->philo[ph].l_meal = 0;
 		r->philo[ph].r = r;
-		ph--;
 	}
 }
 
 int	init_mutex(t_n *r)
 {
 	int	f;
-	int	mutex;
 
 	f = r->ph_nb;
-	while (f > 0)
+	while (--f >= 0)
 	{
-		mutex = pthread_mutex_init(&(r->forks[f]), NULL);
-		if (mutex)
+		if (pthread_mutex_init(&(r->forks[f]), NULL))
 			return (1);
-		f--;
 	}
 	if (pthread_mutex_init(&(r->msg), NULL))
 		return (1);
 	if (pthread_mutex_init(&(r->check_meal), NULL))
+		return (1);
+	if (pthread_mutex_init(&(r->death), NULL))
 		return (1);
 	return (0);
 }

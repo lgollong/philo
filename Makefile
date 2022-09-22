@@ -6,13 +6,13 @@
 #    By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 14:26:59 by lgollong          #+#    #+#              #
-#    Updated: 2022/09/19 19:10:49 by lgollong         ###   ########.fr        #
+#    Updated: 2022/09/21 18:06:36 by lgollong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 FLAG = -pthread
 
 SRC = main.c \

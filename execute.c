@@ -6,29 +6,29 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:52:51 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/20 17:16:09 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:16:44 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	plump_up(t_ph *p)
+void	plump_up(t_ph *p, t_n *r)
 {
-	t_n	*r;
-
-	r = p->r;
 	pthread_mutex_lock(&(r->forks[p->l_f]));
-	print_action(r, get_time() - r->f_time, p->id, "has taken a fork");
-	pthread_mutex_lock(&(r->forks[p->r_f]));
-	print_action(r, get_time() - r->f_time, p->id, "has taken a fork");
-	pthread_mutex_lock(&(r->check_meal));
-	print_action(r, get_time() - r->f_time, p->id, "is eating");
-	p->l_meal = get_time();
-	pthread_mutex_unlock(&(r->check_meal));
-	timing(r->time_eat, r);
-	(p->ate)++;
+	print_action(r, (get_time() - r->f_time), p->id, "has taken a fork");
+	if (r->ph_nb > 1)
+	{
+		pthread_mutex_lock(&(r->forks[p->r_f]));
+		print_action(r, (get_time() - r->f_time), p->id, "has taken a fork");
+		pthread_mutex_lock(&(r->check_meal));
+		print_action(r, (get_time() - r->f_time), p->id, "is eating");
+		p->l_meal = get_time();
+		pthread_mutex_unlock(&(r->check_meal));
+		timing(r->time_eat, r);
+		(p->ate)++;
+		pthread_mutex_unlock(&(r->forks[p->r_f]));
+	}
 	pthread_mutex_unlock(&(r->forks[p->l_f]));
-	pthread_mutex_unlock(&(r->forks[p->r_f]));
 }
 
 void	*routine(void *phs)
@@ -44,15 +44,15 @@ void	*routine(void *phs)
 		usleep(15000);
 	while (!(r->died))
 	{
-		plump_up(p);
+		plump_up(p, r);
 		if (r->fed_up)
 			break ;
-		print_action(r, get_time() - r->f_time, p->id, "is sleeping");
+		print_action(r, (get_time() - r->f_time), p->id, "is sleeping");
 		timing(r->time_sleep, r);
-		print_action(r, get_time() - r->f_time, p->id, "is thinking");
+		print_action(r, (get_time() - r->f_time), p->id, "is thinking");
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	dead_yet(t_n *r, t_ph *p)
@@ -61,13 +61,13 @@ void	dead_yet(t_n *r, t_ph *p)
 
 	while (!(r->fed_up))
 	{
-		i = 0;
-		while (i++ < r->ph_nb && !(r->died))
+		i = -1;
+		while (++i < r->ph_nb && !(r->died))
 		{
 			pthread_mutex_lock(&(r->check_meal));
 			if ((get_time() - p[i].l_meal) > r->time_die)
 			{
-				print_action(r, get_time() - r->f_time, i, "died");
+				print_action(r, (get_time() - r->f_time), i, "died");
 				r->died = 1;
 			}
 			pthread_mutex_unlock(&(r->check_meal));
@@ -75,7 +75,7 @@ void	dead_yet(t_n *r, t_ph *p)
 		}
 		if (r->died)
 			break ;
-		i = 1;
+		i = 0;
 		while (r->must_eat_nb != -1 && i < r->ph_nb
 			&& p[i].ate >= r->must_eat_nb)
 			i++;
@@ -88,39 +88,38 @@ void	exit_programm(t_n *r, t_ph *p)
 {
 	int	i;
 
-	i = 1;
-	while (i <= r->ph_nb)
+	i = 0;
+	while (i < r->ph_nb)
 	{
 		pthread_join(p[i].t_id, NULL);
 		i++;
 	}
-	i = 1;
-	while (i <= r->ph_nb)
+	i = 0;
+	while (i < r->ph_nb)
 	{
 		pthread_mutex_destroy(&(r->forks[i]));
 		i++;
 	}
 	pthread_mutex_destroy(&(r->msg));
+	pthread_mutex_destroy(&(r->check_meal));
 }
 
 int	executer(t_n *r)
 {
 	int		i;
-	int		thread;
 	t_ph	*p;
 
-	i = 1;
+	i = 0;
 	p = r->philo;
 	r->f_time = get_time();
-	while (i <= r->ph_nb)
+	while (i < r->ph_nb)
 	{
-		thread = pthread_create(&(p[i].t_id), NULL, routine, &(p[i]));
-		if (thread)
+		if (pthread_create(&(p[i].t_id), NULL, routine, &(p[i])))
 			return (2);
 		p[i].l_meal = get_time();
 		i++;
 	}
-	dead_yet(r, r->philo);
+	dead_yet(r, p);
 	exit_programm(r, p);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:00:00 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/20 16:43:29 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:43:44 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ typedef struct s_n
 	int				time_eat;
 	int				time_sleep;
 	int				must_eat_nb;
-	int				died;
 	int				fed_up;
+	int				died;
 	long long		f_time;
 	t_ph			philo[1024];
 	pthread_mutex_t	forks[1024];
 	pthread_mutex_t	msg;
 	pthread_mutex_t	check_meal;
+	pthread_mutex_t	death;
 }			t_n;
 
 int			error(int err);
