@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:39:35 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/22 18:44:12 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:23:18 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ int	init_mutex(t_n *r)
 	if (pthread_mutex_init(&(r->msg), NULL))
 		return (1);
 	if (pthread_mutex_init(&(r->check_meal), NULL))
-		return (1);
-	if (pthread_mutex_init(&(r->death), NULL))
 		return (1);
 	return (0);
 }
