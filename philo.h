@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:00:00 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/22 18:43:44 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/28 17:11:52 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ void		print_action(t_n *r, long long time, int id, char *action);
 int			init_all(t_n *r);
 int			executer(t_n *r);
 void		timing(long long time, t_n *r);
+int			lock_died(t_n *r);
+void		exit_programm(t_n *r, t_ph *p);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:52:51 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/22 19:16:44 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/28 17:11:32 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	*routine(void *phs)
 	p = (t_ph *)phs;
 	r = p->r;
 	if (p->id % 2)
-		usleep(15000);
-	while (!(r->died))
+		usleep(20000);
+	while (!(lock_died(r)))
 	{
 		plump_up(p, r);
 		if (r->fed_up)
@@ -53,6 +53,18 @@ void	*routine(void *phs)
 		i++;
 	}
 	return (0);
+}
+
+void	fed_up_yet(t_n *r, t_ph *p)
+{
+	int	i;
+
+	i = 0;
+	while (r->must_eat_nb != -1 && i < r->ph_nb
+		&& p[i].ate >= r->must_eat_nb)
+		i++;
+	if (i == r->ph_nb)
+		r->fed_up = 1;
 }
 
 void	dead_yet(t_n *r, t_ph *p)
@@ -68,40 +80,17 @@ void	dead_yet(t_n *r, t_ph *p)
 			if ((get_time() - p[i].l_meal) > r->time_die)
 			{
 				print_action(r, (get_time() - r->f_time), i, "died");
+				pthread_mutex_lock(&(r->death));
 				r->died = 1;
+				pthread_mutex_unlock(&(r->death));
 			}
 			pthread_mutex_unlock(&(r->check_meal));
 			usleep(100);
 		}
-		if (r->died)
+		if (lock_died(r))
 			break ;
-		i = 0;
-		while (r->must_eat_nb != -1 && i < r->ph_nb
-			&& p[i].ate >= r->must_eat_nb)
-			i++;
-		if (i == r->ph_nb)
-				r->fed_up = 1;
+		fed_up_yet(r, p);
 	}
-}
-
-void	exit_programm(t_n *r, t_ph *p)
-{
-	int	i;
-
-	i = 0;
-	while (i < r->ph_nb)
-	{
-		pthread_join(p[i].t_id, NULL);
-		i++;
-	}
-	i = 0;
-	while (i < r->ph_nb)
-	{
-		pthread_mutex_destroy(&(r->forks[i]));
-		i++;
-	}
-	pthread_mutex_destroy(&(r->msg));
-	pthread_mutex_destroy(&(r->check_meal));
 }
 
 int	executer(t_n *r)
@@ -116,7 +105,9 @@ int	executer(t_n *r)
 	{
 		if (pthread_create(&(p[i].t_id), NULL, routine, &(p[i])))
 			return (2);
+		pthread_mutex_lock(&(r->check_meal));
 		p[i].l_meal = get_time();
+		pthread_mutex_unlock(&(r->check_meal));
 		i++;
 	}
 	dead_yet(r, p);

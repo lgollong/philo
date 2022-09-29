@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:42:11 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/22 19:11:06 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/28 16:21:51 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,33 @@ void	timing(long long time, t_n *r)
 	long long	i;
 
 	i = get_time();
-	while (!(r->died))
+	while (!(lock_died(r)))
 	{
 		if ((get_time() - i) >= time)
 			break ;
-		usleep(50);
 	}
 }
 
 void	print_action(t_n *r, long long time, int id, char *action)
 {
 	pthread_mutex_lock(&(r->msg));
-	if (!(r->died))
+	if (!(lock_died(r)))
 	{
 		printf("%lld ", time);
 		printf("%d ", id + 1);
 		printf("%s\n", action);
 	}
 	pthread_mutex_unlock(&(r->msg));
+}
+
+int	lock_died(t_n *r)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_lock(&(r->death));
+	if (r->died == 1)
+		i = 1;
+	pthread_mutex_unlock(&(r->death));
+	return (i);
 }

@@ -6,11 +6,32 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:58:01 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/20 17:09:31 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/29 15:59:06 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	exit_programm(t_n *r, t_ph *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < r->ph_nb)
+	{
+		pthread_detach(p[i].t_id, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < r->ph_nb)
+	{
+		pthread_mutex_destroy(&(r->forks[i]));
+		i++;
+	}
+	pthread_mutex_destroy(&(r->msg));
+	pthread_mutex_destroy(&(r->check_meal));
+	pthread_mutex_destroy(&(r->death));
+}
 
 int	main(int argc, char **argv)
 {
