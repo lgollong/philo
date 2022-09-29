@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:52:51 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/28 17:11:32 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:01:43 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,15 @@ void	plump_up(t_ph *p, t_n *r)
 {
 	pthread_mutex_lock(&(r->forks[p->l_f]));
 	print_action(r, (get_time() - r->f_time), p->id, "has taken a fork");
-	if (r->ph_nb > 1)
-	{
-		pthread_mutex_lock(&(r->forks[p->r_f]));
-		print_action(r, (get_time() - r->f_time), p->id, "has taken a fork");
-		pthread_mutex_lock(&(r->check_meal));
-		print_action(r, (get_time() - r->f_time), p->id, "is eating");
-		p->l_meal = get_time();
-		pthread_mutex_unlock(&(r->check_meal));
-		timing(r->time_eat, r);
-		(p->ate)++;
-		pthread_mutex_unlock(&(r->forks[p->r_f]));
-	}
+	pthread_mutex_lock(&(r->forks[p->r_f]));
+	print_action(r, (get_time() - r->f_time), p->id, "has taken a fork");
+	pthread_mutex_lock(&(r->check_meal));
+	print_action(r, (get_time() - r->f_time), p->id, "is eating");
+	p->l_meal = get_time();
+	pthread_mutex_unlock(&(r->check_meal));
+	timing(r->time_eat, r);
+	(p->ate)++;
+	pthread_mutex_unlock(&(r->forks[p->r_f]));
 	pthread_mutex_unlock(&(r->forks[p->l_f]));
 }
 
