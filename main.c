@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 13:58:01 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/29 15:59:06 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:31:52 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	exit_programm(t_n *r, t_ph *p)
 	i = 0;
 	while (i < r->ph_nb)
 	{
-		pthread_detach(p[i].t_id, NULL);
+		pthread_join(p[i].t_id, NULL);
 		i++;
 	}
 	i = 0;
@@ -31,6 +31,7 @@ void	exit_programm(t_n *r, t_ph *p)
 	pthread_mutex_destroy(&(r->msg));
 	pthread_mutex_destroy(&(r->check_meal));
 	pthread_mutex_destroy(&(r->death));
+	pthread_mutex_destroy(&(r->fed));
 }
 
 int	main(int argc, char **argv)

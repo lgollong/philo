@@ -6,11 +6,19 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:39:35 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/28 15:35:43 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:06:51 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long long	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
 
 int	parse_args(t_n *r, int argc, char **argv)
 {
@@ -65,6 +73,8 @@ int	init_mutex(t_n *r)
 	if (pthread_mutex_init(&(r->check_meal), NULL))
 		return (1);
 	if (pthread_mutex_init(&(r->death), NULL))
+		return (1);
+	if (pthread_mutex_init(&(r->fed), NULL))
 		return (1);
 	return (0);
 }

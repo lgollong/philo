@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:42:11 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/28 16:21:51 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/29 17:10:25 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,6 @@ int	ft_atoi(const char *strn)
 		i++;
 	}
 	return (nbr * sol);
-}
-
-long long	get_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 void	timing(long long time, t_n *r)
@@ -79,5 +71,17 @@ int	lock_died(t_n *r)
 	if (r->died == 1)
 		i = 1;
 	pthread_mutex_unlock(&(r->death));
+	return (i);
+}
+
+int	lock_fed_up(t_n *r)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_lock(&(r->fed));
+	if (r->fed_up == 1)
+		i = 1;
+	pthread_mutex_unlock(&(r->fed));
 	return (i);
 }

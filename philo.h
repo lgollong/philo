@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:00:00 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/28 17:11:52 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/29 18:07:01 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_n
 	pthread_mutex_t	msg;
 	pthread_mutex_t	check_meal;
 	pthread_mutex_t	death;
+	pthread_mutex_t	fed;
 }			t_n;
 
 int			error(int err);
@@ -58,5 +59,6 @@ int			executer(t_n *r);
 void		timing(long long time, t_n *r);
 int			lock_died(t_n *r);
 void		exit_programm(t_n *r, t_ph *p);
+int			lock_fed_up(t_n *r);
 
 #endif

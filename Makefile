@@ -6,14 +6,13 @@
 #    By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 14:26:59 by lgollong          #+#    #+#              #
-#    Updated: 2022/09/29 14:33:38 by lgollong         ###   ########.fr        #
+#    Updated: 2022/09/29 18:27:27 by lgollong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
-FLAG = -pthread
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 
 SRC = main.c \
 		error.c \
@@ -30,7 +29,7 @@ END 	= \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(FLAG) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN) [✓] philo compiled$(END)"
 
 %.o: %.c
