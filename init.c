@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:39:35 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/30 15:34:15 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:26:47 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	parse_args(t_n *r, int argc, char **argv)
 	r->time_die = ft_atoi(argv[2]);
 	r->time_eat = ft_atoi(argv[3]);
 	r->time_sleep = ft_atoi(argv[4]);
-	r->fed_up = 0;
 	r->died = 0;
+	r->fed_up = 0;
 	if (argc == 6)
 	{
 		r->must_eat_nb = ft_atoi(argv[5]);

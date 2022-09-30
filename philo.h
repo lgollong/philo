@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:00:00 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/29 18:07:01 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:43:08 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_n
 	pthread_mutex_t	fed;
 }			t_n;
 
-int			error(int err);
+int			ft_error(int err);
 int			parse_args(t_n *r, int argc, char **argv);
 int			ft_atoi(const char *strn);
 long long	get_time(void);

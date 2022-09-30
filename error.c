@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:35:23 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/20 17:10:07 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/30 17:42:44 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	write_error(char *str)
 	}
 }
 
-int	error(int err)
+int	ft_error(int err)
 {
 	if (err == 1)
 		write_error("Wrong amount of arguments\n");
