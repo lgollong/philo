@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:39:35 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/29 18:06:51 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/30 15:34:15 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	parse_args(t_n *r, int argc, char **argv)
 	}
 	else
 		r->must_eat_nb = -1;
-	if (r->ph_nb < 1 || r->time_die < 60 || r->ph_nb >= 1024
-		|| r->time_eat < 60 || r->time_sleep < 60)
+	if (r->ph_nb < 1 || r->time_die < 0 || r->ph_nb >= 1024
+		|| r->time_eat < 0 || r->time_sleep < 0)
 		return (4);
 	return (0);
 }

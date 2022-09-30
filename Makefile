@@ -6,13 +6,13 @@
 #    By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/16 14:26:59 by lgollong          #+#    #+#              #
-#    Updated: 2022/09/29 18:27:27 by lgollong         ###   ########.fr        #
+#    Updated: 2022/09/30 16:10:20 by lgollong         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 
 SRC = main.c \
 		error.c \

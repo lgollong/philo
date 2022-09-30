@@ -6,7 +6,7 @@
 /*   By: lgollong <lgollong@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 14:52:51 by lgollong          #+#    #+#             */
-/*   Updated: 2022/09/29 18:14:03 by lgollong         ###   ########.fr       */
+/*   Updated: 2022/09/30 16:09:04 by lgollong         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	plump_up(t_ph *p, t_n *r)
 	(p->ate)++;
 	pthread_mutex_unlock(&(r->check_meal));
 	timing(r->time_eat, r);
-	pthread_mutex_unlock(&(r->forks[p->r_f]));
 	pthread_mutex_unlock(&(r->forks[p->l_f]));
+	pthread_mutex_unlock(&(r->forks[p->r_f]));
 }
 
 void	*routine(void *phs)
@@ -38,7 +38,7 @@ void	*routine(void *phs)
 	p = (t_ph *)phs;
 	r = p->r;
 	if (p->id % 2)
-		usleep(15000);
+		usleep(20000);
 	while (!(lock_died(r)))
 	{
 		plump_up(p, r);
@@ -68,7 +68,6 @@ void	fed_up_yet(t_n *r, t_ph *p)
 		pthread_mutex_unlock(&(r->fed));
 	}
 	pthread_mutex_unlock(&(r->check_meal));
-	usleep(100);
 }
 
 void	dead_yet(t_n *r, t_ph *p)
@@ -89,10 +88,13 @@ void	dead_yet(t_n *r, t_ph *p)
 				pthread_mutex_unlock(&(r->death));
 			}
 			pthread_mutex_unlock(&(r->check_meal));
-			usleep(100);
 		}
 		if (lock_died(r))
+		{
+			if (r->ph_nb == 1)
+				pthread_mutex_unlock(&(r->forks[p->l_f]));
 			break ;
+		}
 		fed_up_yet(r, p);
 	}
 }
